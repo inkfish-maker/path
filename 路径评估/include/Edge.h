@@ -9,6 +9,7 @@ class Edge
 public:
     PointType px, py;
     PointType mid_p;
+    DataType edge_width;
     Edge();
     Edge(PointType ppx, PointType ppy);
     Edge operator=(const Edge &e);
@@ -20,6 +21,7 @@ Edge ::Edge()
     px = PointType(0, 0);
     py = PointType(0, 0);
     mid_p = PointType(0, 0);
+    edge_width = 0;
 }
 Edge::Edge(PointType ppx, PointType ppy)
 {
@@ -27,6 +29,7 @@ Edge::Edge(PointType ppx, PointType ppy)
     py = ppy;
     mid_p.x = (ppx.x + ppy.x) / 2;
     mid_p.y = (ppx.y + ppy.y) / 2;
+    edge_width = sqrt(pow(fabs(ppx.x - ppy.x), 2) + pow(fabs(ppx.y - ppy.y), 2));
 }
 Edge Edge::operator=(const Edge &e)
 {

@@ -159,8 +159,8 @@ vector<vector<AdjacencyEdge>> adj_edges;
 //相对三角形的邻接三角形
 struct AdjacencyTri
 {
-    //邻接三角形的序号与邻接的边的中点
-    vector<pair<int, PointType>> AdjTriIndex_Point;
+    //邻接三角形的序号与邻接的边
+    vector<pair<int, Edge>> AdjTriIndex_Edge;
 };
 vector<AdjacencyTri> adj_tirs;
 

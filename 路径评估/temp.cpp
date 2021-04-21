@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <cmath>
 using namespace std;
 
 int main()
@@ -15,5 +16,5 @@ int main()
     // //引用传递
     // for_each(a, a + 6, [&cnt](int x) { cout << x + cnt << "  ";cnt++; });
     // cout << endl;
-    cout << sizeof(int) << endl;
+    cout << atan2(0.01, -5.0) / 3.14 * 360 << endl;
 }
