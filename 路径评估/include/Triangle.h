@@ -1,7 +1,6 @@
 #ifndef TRIANGLE_H
 #define TRIANGLE_H
 
-#include "config.h"
 #include "Edge.h"
 
 //x升序

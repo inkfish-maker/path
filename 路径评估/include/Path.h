@@ -1,7 +1,6 @@
 #ifndef PATH_H
 #define PATH_H
 
-#include "config.h"
 #include "Triangle.h"
 
 //路径深度
@@ -69,13 +68,16 @@ void ConnectTri(const vector<Triangle> &triangles_)
                 adj_tirs[i].AdjTriIndex_Point.push_back(p);
             }
         }
+        for (int j = 0; j < paths.size(); j++)
+        {
 
-        // cout << triangles_[i].e1.px.index << "    " << triangles_[i].e1.py.index << "    " << triangles_[i].e2.px.index << "    " << triangles_[i].e2.py.index << "    " << triangles_[i].e3.px.index << "    " << triangles_[i].e3.py.index << "    " << endl;
+            // cout << triangles_[i].e1.px.index << "    " << triangles_[i].e1.py.index << "    " << triangles_[i].e2.px.index << "    " << triangles_[i].e2.py.index << "    " << triangles_[i].e3.px.index << "    " << triangles_[i].e3.py.index << "    " << endl;
+        }
     }
 }
 void DFS_Path(int start)
 {
-    if (path.size() >= 5)
+    if (path.size() >= depth)
     {
         paths.push_back(path);
         return;
@@ -87,7 +89,6 @@ void DFS_Path(int start)
         if (triangles[next_tri].visit == false)
         {
             path.push_back(adj_tirs[start].AdjTriIndex_Point[i].second);
-            depth++;
             DFS_Path(next_tri);
             path.pop_back();
         }

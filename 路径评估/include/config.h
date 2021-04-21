@@ -8,10 +8,6 @@
 #include <vector>
 #include <queue>
 #include <algorithm>
-#include "Point.h"
-
-#define PointType MyPoint
-#define DataType float
 
 using namespace cv;
 using namespace std;

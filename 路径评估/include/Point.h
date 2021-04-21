@@ -1,9 +1,10 @@
 #ifndef POINT_H
 #define POINT_H
 
-#include <opencv2/core.hpp>
-#include <opencv2/highgui/highgui.hpp>
-#include <opencv2/imgproc/imgproc.hpp>
+#include "config.h"
+
+#define PointType MyPoint
+#define DataType float
 
 using namespace cv;
 

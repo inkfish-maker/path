@@ -1,8 +1,6 @@
 #ifndef DELAUNAY_H
 #define DELAUNAY_H
 
-#include "config.h"
-#include "Edge.h"
 #include "Triangle.h"
 
 //生成点集

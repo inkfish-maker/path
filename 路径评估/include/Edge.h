@@ -1,6 +1,8 @@
 #ifndef EDGE_H
 #define EDGE_H
-#include "config.h"
+
+#include "Point.h"
+
 //边类
 class Edge
 {
