@@ -3,8 +3,10 @@
 
 #include "Triangle.h"
 
-//生成点集
+//生成点集（随机）
 void create_points();
+//读取点集
+void read_points();
 //展示效果
 void show_tri(vector<Triangle> &triangles_);
 //构建超级三角形
@@ -23,13 +25,36 @@ void create_points()
     // std::cout << "point_position:" << endl;
     for (int i = 0; i < point_num; i++)
     {
-        // PointType p(rand() % Mat_len, rand() % Mat_width);
-        PointType p(rand() % Mat_len / 3 + Mat_len / 3, rand() % Mat_width / 3 + Mat_width / 3);
+        PointType p(rand() % Mat_len, rand() % Mat_width);
+        // PointType p(rand() % Mat_len / 3 + Mat_len / 3, rand() % Mat_width / 3 + Mat_width / 3);
         p.index = i;
         points.push_back(p);
         circle(board, p, 2, Scalar(0, 0, 255), CV_FILLED, CV_AA, 0);
         // std::cout << p.x << "      " << p.y << endl;
     }
+}
+void read_points()
+{
+    fstream fin;
+    fin.open("/home/jinzedong/桌面/路径评估/path_datas/path.txt");
+    int numberPoints, color;
+    double x, y;
+    char none_key;
+    fin >> numberPoints;
+    point_num = numberPoints;
+    for (int i = 0; i < numberPoints; ++i)
+    {
+        fin >> x;
+        fin >> none_key;
+        fin >> y;
+        fin >> none_key;
+        fin >> color;
+        PointType p(x, y);
+        p.index = i;
+        points.push_back(p);
+        circle(board, p, 2, Scalar(0, 0, 255), CV_FILLED, CV_AA, 0);
+    }
+    fin.close();
 }
 void show_tri(vector<Triangle> &triangles_)
 {

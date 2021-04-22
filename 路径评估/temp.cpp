@@ -16,5 +16,7 @@ int main()
     // //引用传递
     // for_each(a, a + 6, [&cnt](int x) { cout << x + cnt << "  ";cnt++; });
     // cout << endl;
-    cout << atan2(0.01, -5.0) / 3.14 * 360 << endl;
+    auto fun = [](int x) { cout << x << endl; };
+    fun(3);
+    fun(5);
 }

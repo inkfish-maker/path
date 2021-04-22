@@ -11,7 +11,8 @@ public:
     PointType mid_p;
     DataType edge_width;
     Edge();
-    Edge(PointType ppx, PointType ppy);
+    Edge(const PointType &ppx, const PointType &ppy);
+    void getEdgeWidth();
     Edge operator=(const Edge &e);
     bool operator==(const Edge &e);
     bool operator!=(const Edge &e);
@@ -23,13 +24,18 @@ Edge ::Edge()
     mid_p = PointType(0, 0);
     edge_width = 0;
 }
-Edge::Edge(PointType ppx, PointType ppy)
+Edge::Edge(const PointType &ppx, const PointType &ppy)
 {
     px = ppx;
     py = ppy;
     mid_p.x = (ppx.x + ppy.x) / 2;
     mid_p.y = (ppx.y + ppy.y) / 2;
-    edge_width = sqrt(pow(fabs(ppx.x - ppy.x), 2) + pow(fabs(ppx.y - ppy.y), 2));
+    edge_width = 0;
+    // edge_width = sqrt(pow(fabs(ppx.x - ppy.x), 2) + pow(fabs(ppx.y - ppy.y), 2));
+}
+void Edge::getEdgeWidth()
+{
+    edge_width = sqrt(pow(fabs(px.x - py.x), 2) + pow(fabs(px.y - py.y), 2));
 }
 Edge Edge::operator=(const Edge &e)
 {

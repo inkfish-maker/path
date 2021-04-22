@@ -71,11 +71,6 @@ void ConnectTri(const vector<Triangle> &triangles_)
                 adj_tirs[i].AdjTriIndex_Edge.push_back(p);
             }
         }
-        for (int j = 0; j < paths.size(); j++)
-        {
-
-            // cout << triangles_[i].e1.px.index << "    " << triangles_[i].e1.py.index << "    " << triangles_[i].e2.px.index << "    " << triangles_[i].e2.py.index << "    " << triangles_[i].e3.px.index << "    " << triangles_[i].e3.py.index << "    " << endl;
-        }
     }
 }
 void DFS_Path(int start)
@@ -93,12 +88,14 @@ void DFS_Path(int start)
         if (triangles[next_tri].visit == false)
         {
             path.push_back(adj_tirs[start].AdjTriIndex_Edge[i].second.mid_p);
+            adj_tirs[start].AdjTriIndex_Edge[i].second.getEdgeWidth();
             width.push_back(adj_tirs[start].AdjTriIndex_Edge[i].second.edge_width);
             DFS_Path(next_tri);
             path.pop_back();
             width.pop_back();
         }
     }
+    triangles[start].visit = false;
 }
 
 #endif

@@ -27,8 +27,8 @@ public:
     //是否访问过
     bool visit;
 
-    Triangle(PointType pp1, PointType pp2, PointType pp3);
-    Triangle(PointType p, Edge e);
+    Triangle(const PointType &pp1, const PointType &pp2, const PointType &pp3);
+    Triangle(const PointType &p, const Edge &e);
     //求面积
     DataType Area();
     //初始化内接圆
@@ -36,7 +36,7 @@ public:
     bool operator==(Triangle const &tri);
 };
 
-Triangle::Triangle(PointType pp1, PointType pp2, PointType pp3)
+Triangle::Triangle(const PointType &pp1, const PointType &pp2, const PointType &pp3)
 {
     //pp1,pp2,pp3按x升序
     vector<PointType> ord;
@@ -53,14 +53,14 @@ Triangle::Triangle(PointType pp1, PointType pp2, PointType pp3)
     e3 = Edge(p2, p3);
     InitCircle();
 }
-Triangle::Triangle(PointType p, Edge e)
+Triangle::Triangle(const PointType &p, const Edge &e)
 {
     //pp1,pp2,pp3按x升序
     vector<PointType> ord;
     ord.push_back(p);
     ord.push_back(e.px);
     ord.push_back(e.py);
-    std::sort(ord.begin(), ord.end(), cmp_x);
+    // std::sort(ord.begin(), ord.end(), cmp_x);
 
     p1 = ord[0];
     p2 = ord[1];
