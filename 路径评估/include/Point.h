@@ -17,9 +17,6 @@ public:
     MyPoint(T x, T y) : Point2d(x, y){};
 
     MyPoint operator=(const MyPoint &p);
-    // MyPoint(int x, int y) : Point2d(x, y){};
-    // MyPoint(float x, float y) : Point2d(x, y){};
-    // MyPoint(double x, double y) : Point2d(x, y){};
 };
 MyPoint MyPoint::operator=(const MyPoint &p)
 {

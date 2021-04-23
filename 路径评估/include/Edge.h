@@ -30,8 +30,8 @@ Edge::Edge(const PointType &ppx, const PointType &ppy)
     py = ppy;
     mid_p.x = (ppx.x + ppy.x) / 2;
     mid_p.y = (ppx.y + ppy.y) / 2;
-    edge_width = 0;
-    // edge_width = sqrt(pow(fabs(ppx.x - ppy.x), 2) + pow(fabs(ppx.y - ppy.y), 2));
+    // edge_width = 0;
+    edge_width = sqrt(pow(fabs(ppx.x - ppy.x), 2) + pow(fabs(ppx.y - ppy.y), 2));
 }
 void Edge::getEdgeWidth()
 {
@@ -42,6 +42,7 @@ Edge Edge::operator=(const Edge &e)
     px = e.px;
     py = e.py;
     mid_p = e.mid_p;
+    edge_width = e.edge_width;
 }
 bool Edge::operator==(const Edge &e)
 {

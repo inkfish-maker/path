@@ -138,7 +138,7 @@ bool cmp_edge(Edge e1, Edge e2)
 //一些全局变量
 //之后改写为类
 
-//点集区域,点集左下角与右上角
+//点集区域,点集左下角与右上角sort(points.begin(), points.end(), [](PointType p1, PointType p2) { return p1.index < p2.index; });
 vector<PointType> region;
 //列表顶点
 vector<PointType> points;

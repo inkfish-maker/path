@@ -147,4 +147,33 @@ int BestPath()
     }
     return min_path;
 }
+
+void run()
+{
+    int start = 0;
+    DFS_Path(start, triangles[start].p1.index, triangles[start].p2.index);
+    int pre = start;
+    // triangles[pre].visit = true;
+    while (true)
+    {
+        int pathindex = BestPath();
+        //展示最佳路径
+        Mat temp;
+        board.copyTo(temp);
+        circle(temp, Point2d(paths[pathindex][0].x, paths[pathindex][0].y), 2, Scalar(0, 0, 255), CV_FILLED, CV_AA, 0);
+        for (int i = 0; i < paths[pathindex].size() - 1; i++)
+        {
+            line(temp, Point2d(paths[pathindex][i].x, paths[pathindex][i].y), Point2d(paths[pathindex][i + 1].x, paths[pathindex][i + 1].y), Scalar(0, 255, 0));
+        }
+        imshow("main", temp);
+        waitKey(0);
+
+        triangles[start].visit = true;
+        triangles[pre].visit = false;
+        pre = start;
+        int start = nextinfos[pathindex][1].first, nextp1 = nextinfos[pathindex][1].second.px.index, nextp2 = nextinfos[pathindex][1].second.py.index;
+        ClearPath();
+        DFS_Path(start, nextp1, nextp2);
+    }
+}
 #endif
