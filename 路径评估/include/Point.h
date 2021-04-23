@@ -4,7 +4,7 @@
 #include "config.h"
 
 #define PointType MyPoint
-#define DataType float
+#define DataType double
 
 using namespace cv;
 

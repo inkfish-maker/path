@@ -16,7 +16,9 @@ int main()
     // //引用传递
     // for_each(a, a + 6, [&cnt](int x) { cout << x + cnt << "  ";cnt++; });
     // cout << endl;
-    auto fun = [](int x) { cout << x << endl; };
-    fun(3);
-    fun(5);
+    // auto fun = [](int x) { cout << x << endl; };
+    // fun(3);
+    // fun(5);
+    double a = __FLT_MAX__;
+    cout << a << endl;
 }
