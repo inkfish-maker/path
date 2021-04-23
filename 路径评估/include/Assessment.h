@@ -133,8 +133,7 @@ int BestPath()
     DataType min_coefficient = FLT_MAX; //double可以改成DBL_MAX
     DataType now_coefficient = FLT_MAX;
     DataType angle_change = -1, path_width_dev = -1, path_lenth_dev = -1;
-    int i = 0;
-    for (i = 0; i < paths.size(); i++)
+    for (int i = 0; i < paths.size(); i++)
     {
         angle_change = get_MaximumAngleChange(i);
         path_width_dev = get_TrackWidthStandardDeviation(i);
@@ -146,6 +145,6 @@ int BestPath()
             min_path = i;
         }
     }
-    return i;
+    return min_path;
 }
 #endif
