@@ -26,22 +26,40 @@ DataType GetAngle(const PointType &p1, const PointType &p2, const PointType &p3)
         angle += 2 * M_PI;
     else if (angle > M_PI)
         angle -= 2 * M_PI;
-    // cout << angle / M_PI * 180 << endl;
+    cout << angle / M_PI * 180 << endl;
     return angle;
 }
 
-//最大角度变化？？
+// //最大角度变化version_1(相邻角的变化)
+// DataType get_MaximumAngleChange(int index)
+// {
+//     vector<DataType> angles;
+//     // cout << "angles:" << endl;
+//     for (int i = 0; i < paths[index].size() - 2; i++)
+//         angles.push_back(GetAngle(paths[index][i], paths[index][i + 1], paths[index][i + 2]));
+//     DataType maxAngleChange = -1;
+//     for (int i = 0; i < angles.size() - 1; i++)
+//         maxAngleChange = max(maxAngleChange, fabs(angles[i + 1] - angles[i]));
+//     // cout << "MaximumAngleChange:" << endl;
+//     // cout << maxAngleChange / M_PI * 180 << endl;
+//     return maxAngleChange;
+// }
+
+//最大角度变化version_2(全局角的变化)
 DataType get_MaximumAngleChange(int index)
 {
     vector<DataType> angles;
-    // cout << "angles:" << endl;
+    cout << "angles:" << endl;
     for (int i = 0; i < paths[index].size() - 2; i++)
+    {
         angles.push_back(GetAngle(paths[index][i], paths[index][i + 1], paths[index][i + 2]));
+        cout << angles[i] << endl;
+    }
     DataType maxAngleChange = -1;
-    for (int i = 0; i < angles.size() - 1; i++)
-        maxAngleChange = max(maxAngleChange, fabs(angles[i + 1] - angles[i]));
-    // cout << "MaximumAngleChange:" << endl;
-    // cout << maxAngleChange / M_PI * 180 << endl;
+    sort(angles.begin(), angles.end());
+    maxAngleChange = angles[angles.size() - 1] - angles[0];
+    cout << "MaximumAngleChange:" << endl;
+    cout << maxAngleChange / M_PI * 180 << endl;
     return maxAngleChange;
 }
 
