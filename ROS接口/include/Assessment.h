@@ -206,20 +206,22 @@ void run()
     int start = 0;
     DFS_Path(start, triangles[start].p1.index, triangles[start].p2.index);
     int pre = start;
-    // triangles[pre].visit = true;
+    triangles[pre].visit = true;
     while (true)
     {
         clock_t start_c = clock(), end_c;
         int pathindex = BestPath();
         //展示最佳路径
         Mat temp;
+        line(board, triangles[start].p1, triangles[start].p2, Scalar(255, 255, 0));
+        line(board, triangles[start].p1, triangles[start].p3, Scalar(255, 255, 0));
+        line(board, triangles[start].p2, triangles[start].p3, Scalar(255, 255, 0));
         board.copyTo(temp);
         circle(temp, Point2d(paths[pathindex][0].x, paths[pathindex][0].y), 2, Scalar(0, 0, 255), CV_FILLED, CV_AA, 0);
-        cout << "start:" << start << endl;
         // cout << "pre:" << pre << endl;
-        line(temp, triangles[start].p1, triangles[start].p2, Scalar(255, 255, 0));
-        line(temp, triangles[start].p1, triangles[start].p3, Scalar(255, 255, 0));
-        line(temp, triangles[start].p2, triangles[start].p3, Scalar(255, 255, 0));
+        // line(temp, triangles[start].p1, triangles[start].p2, Scalar(255, 255, 0));
+        // line(temp, triangles[start].p1, triangles[start].p3, Scalar(255, 255, 0));
+        // line(temp, triangles[start].p2, triangles[start].p3, Scalar(255, 255, 0));
         for (int i = 0; i < paths[pathindex].size() - 1; i++)
         {
             line(temp, Point2d(paths[pathindex][i].x, paths[pathindex][i].y), Point2d(paths[pathindex][i + 1].x, paths[pathindex][i + 1].y), Scalar(0, 255, 0));
@@ -233,15 +235,22 @@ void run()
         triangles[start].visit = true;
         triangles[pre].visit = false;
         pre = start;
-        int start = nextinfos[pathindex][1].first, nextp1 = nextinfos[pathindex][1].second.px.index, nextp2 = nextinfos[pathindex][1].second.py.index;
+        start = nextinfos[pathindex][1].first;
+        int nextp1 = nextinfos[pathindex][1].second.px.index, nextp2 = nextinfos[pathindex][1].second.py.index;
         ClearPath();
         DFS_Path(start, nextp1, nextp2);
+
         // for (int i = 0; i < paths.size(); i++)
         // {
         //     for (int j = 1; j < paths[i].size(); j++)
         //         if (paths[i][j] == paths[i][j - 1])
         //             cout << "error" << endl;
         // }
+        for (int i = 0; i < nextinfos[pathindex].size(); i++)
+        {
+            cout << nextinfos[pathindex][i].first << " ";
+        }
+        cout << endl;
     }
 }
 #endif

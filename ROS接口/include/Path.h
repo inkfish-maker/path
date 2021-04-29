@@ -103,13 +103,13 @@ void DFS_Path(int start, int p1_index, int p2_index)
                 // path.push_back(adj_tirs[start].AdjTriIndex_Edge[i].second.mid_p);
                 // adj_tirs[start].AdjTriIndex_Edge[i].second.getEdgeWidth();
                 // width.push_back(adj_tirs[start].AdjTriIndex_Edge[i].second.edge_width);
-                // Edge nextedge(adj_tirs[start].AdjTriIndex_Edge[i].second.px, adj_tirs[start].AdjTriIndex_Edge[i].second.py);
-                // if (nowedge == nextedge)
-                // {
-                //     path.pop_back();
-                //     width.pop_back();
-                //     nextinfo.pop_back();
-                // }
+                Edge nextedge(adj_tirs[start].AdjTriIndex_Edge[i].second.px, adj_tirs[start].AdjTriIndex_Edge[i].second.py);
+                if (nowedge == nextedge)
+                {
+                    path.pop_back();
+                    width.pop_back();
+                    nextinfo.pop_back();
+                }
                 DFS_Path(next_tri, adj_tirs[start].AdjTriIndex_Edge[i].second.px.index, adj_tirs[start].AdjTriIndex_Edge[i].second.py.index);
                 path.pop_back();
                 width.pop_back();
