@@ -19,7 +19,7 @@ Mat board;
 int Mat_len = 800;
 int Mat_width = 800;
 //随机点数量
-int point_num = 20;
+int point_num = 42;
 //记得修改Delaunay.h中read_point的路径
 
 #endif

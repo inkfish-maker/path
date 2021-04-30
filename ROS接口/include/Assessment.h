@@ -35,37 +35,37 @@ DataType GetAngle(const PointType &p1, const PointType &p2, const PointType &p3)
 }
 
 // //最大角度变化version_1(相邻角的变化)
-// DataType get_MaximumAngleChange(int index)
-// {
-//     vector<DataType> angles;
-//     // cout << "angles:" << endl;
-//     for (int i = 0; i < paths[index].size() - 2; i++)
-//         angles.push_back(GetAngle(paths[index][i], paths[index][i + 1], paths[index][i + 2]));
-//     DataType maxAngleChange = -1;
-//     for (int i = 0; i < angles.size() - 1; i++)
-//         maxAngleChange = max(maxAngleChange, fabs(angles[i + 1] - angles[i]));
-//     // cout << "MaximumAngleChange:" << endl;
-//     // cout << maxAngleChange / M_PI * 180 << endl;
-//     return maxAngleChange;
-// }
-
-//最大角度变化version_2(全局角的变化)
 DataType get_MaximumAngleChange(int index)
 {
     vector<DataType> angles;
     // cout << "angles:" << endl;
     for (int i = 0; i < paths[index].size() - 2; i++)
-    {
         angles.push_back(GetAngle(paths[index][i], paths[index][i + 1], paths[index][i + 2]));
-        // cout << angles[i] << endl;
-    }
     DataType maxAngleChange = -1;
-    sort(angles.begin(), angles.end());
-    maxAngleChange = angles[angles.size() - 1] - angles[0];
+    for (int i = 0; i < angles.size() - 1; i++)
+        maxAngleChange = max(maxAngleChange, fabs(angles[i + 1] - angles[i]));
     // cout << "MaximumAngleChange:" << endl;
     // cout << maxAngleChange / M_PI * 180 << endl;
     return maxAngleChange;
 }
+
+//最大角度变化version_2(全局角的变化)
+// DataType get_MaximumAngleChange(int index)
+// {
+//     vector<DataType> angles;
+//     // cout << "angles:" << endl;
+//     for (int i = 0; i < paths[index].size() - 2; i++)
+//     {
+//         angles.push_back(GetAngle(paths[index][i], paths[index][i + 1], paths[index][i + 2]));
+//         // cout << angles[i] << endl;
+//     }
+//     DataType maxAngleChange = -1;
+//     sort(angles.begin(), angles.end());
+//     maxAngleChange = angles[angles.size() - 1] - angles[0];
+//     // cout << "MaximumAngleChange:" << endl;
+//     // cout << maxAngleChange / M_PI * 180 << endl;
+//     return maxAngleChange;
+// }
 
 //路径宽度的标准差
 DataType get_TrackWidthStandardDeviation(int index)
@@ -205,17 +205,20 @@ void run()
 {
     int start = 0;
     DFS_Path(start, triangles[start].p1.index, triangles[start].p2.index);
-    int pre = start;
-    triangles[pre].visit = true;
+    //防止回头
+    int pre = -1;
+    int prepre = -1;
     while (true)
     {
         clock_t start_c = clock(), end_c;
         int pathindex = BestPath();
+        cout << start << "  ";
+        for (int i = 0; i < nextinfos[pathindex].size(); i++)
+        {
+            cout << nextinfos[pathindex][i].first << " ";
+        }
         //展示最佳路径
         Mat temp;
-        line(board, triangles[start].p1, triangles[start].p2, Scalar(255, 255, 0));
-        line(board, triangles[start].p1, triangles[start].p3, Scalar(255, 255, 0));
-        line(board, triangles[start].p2, triangles[start].p3, Scalar(255, 255, 0));
         board.copyTo(temp);
         circle(temp, Point2d(paths[pathindex][0].x, paths[pathindex][0].y), 2, Scalar(0, 0, 255), CV_FILLED, CV_AA, 0);
         // cout << "pre:" << pre << endl;
@@ -233,24 +236,16 @@ void run()
         start_c = clock();
 
         triangles[start].visit = true;
-        triangles[pre].visit = false;
+        if (pre != -1)
+            triangles[pre].visit = true;
+        if (prepre != -1)
+            triangles[prepre].visit = false;
+        prepre = pre;
         pre = start;
         start = nextinfos[pathindex][1].first;
         int nextp1 = nextinfos[pathindex][1].second.px.index, nextp2 = nextinfos[pathindex][1].second.py.index;
         ClearPath();
         DFS_Path(start, nextp1, nextp2);
-
-        // for (int i = 0; i < paths.size(); i++)
-        // {
-        //     for (int j = 1; j < paths[i].size(); j++)
-        //         if (paths[i][j] == paths[i][j - 1])
-        //             cout << "error" << endl;
-        // }
-        for (int i = 0; i < nextinfos[pathindex].size(); i++)
-        {
-            cout << nextinfos[pathindex][i].first << " ";
-        }
-        cout << endl;
     }
 }
 #endif

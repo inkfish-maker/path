@@ -21,6 +21,6 @@ int main()
     //搞清楚为什么point的序号会变
     sort(points.begin(), points.end(), [](PointType p1, PointType p2) { return p1.index < p2.index; });
 
-    SetWeight(5, 1, 1);
+    SetWeight(3, 3, 1);
     run();
 }

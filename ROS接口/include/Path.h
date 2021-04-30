@@ -5,7 +5,7 @@
 
 //路径深度
 int mindepth = 8;
-int maxdepth = 10;
+int maxdepth = 12;
 //路径
 vector<PointType> path;
 vector<vector<PointType>> paths;
@@ -78,13 +78,21 @@ void ConnectTri(const vector<Triangle> &triangles_)
 }
 //tir序号，边的两个端点序号
 //可以使用分支界限优化效率（待实现）
+bool dfs_flag = true;
 void DFS_Path(int start, int p1_index, int p2_index)
 {
     //中点加入path
     Edge nowedge(points[p1_index], points[p2_index]);
-    path.push_back(nowedge.mid_p);
-    width.push_back(nowedge.edge_width);
-    nextinfo.push_back(pair<int, Edge>(start, nowedge));
+    if (dfs_flag)
+    {
+        path.push_back(nowedge.mid_p);
+        width.push_back(nowedge.edge_width);
+        nextinfo.push_back(pair<int, Edge>(start, nowedge));
+    }
+    else
+    {
+        dfs_flag = true;
+    }
     if (path.size() >= mindepth)
     {
         paths.push_back(path);
@@ -106,9 +114,7 @@ void DFS_Path(int start, int p1_index, int p2_index)
                 Edge nextedge(adj_tirs[start].AdjTriIndex_Edge[i].second.px, adj_tirs[start].AdjTriIndex_Edge[i].second.py);
                 if (nowedge == nextedge)
                 {
-                    path.pop_back();
-                    width.pop_back();
-                    nextinfo.pop_back();
+                    dfs_flag = false;
                 }
                 DFS_Path(next_tri, adj_tirs[start].AdjTriIndex_Edge[i].second.px.index, adj_tirs[start].AdjTriIndex_Edge[i].second.py.index);
                 path.pop_back();

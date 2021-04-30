@@ -53,7 +53,7 @@ int main()
         char key = cvWaitKey(10);
         if (key == 's')
         {
-            ofstream fout("/home/jinzedong/桌面/路径评估/path_datas/path.txt");
+            ofstream fout("/home/jinzedong/桌面/ROS接口/path_datas/path3.txt");
             fout << points.size() << endl;
             for (int i = 0; i < points.size(); ++i)
             {
