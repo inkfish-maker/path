@@ -2,6 +2,7 @@
 #define PATH_H
 
 #include "Triangle.h"
+#include "Delaunay.h"
 
 //路径深度
 int mindepth = 8;
@@ -19,6 +20,14 @@ vector<vector<DataType>> widths;
 void ConnectTri(const vector<Triangle> &triangles_);
 //DFS搜索备选路径
 void DFS_Path(int start, int p1_index, int p2_index);
+//重置变量，为下一次规划做准备
+void ClearPath();
+//找到DFS的起始点
+pair<int, Edge> FindStart(const PointType &start);
+//判断一个点是否在三角形内部
+bool PointinTriangle(const Triangle &tri, const PointType &p);
+//从点集到最佳路径
+void process(const PointType &start_point);
 
 void ConnectTri(const vector<Triangle> &triangles_)
 {
@@ -126,7 +135,73 @@ void DFS_Path(int start, int p1_index, int p2_index)
     }
 }
 
-//重置变量，为下一次规划做准备
+pair<int, Edge> FindStart(const PointType &start)
+{
+    circle(board, start, 2, Scalar(0, 0, 255), CV_FILLED, CV_AA, 0);
+    int tri_index = -1;
+    for (int i = 0; i < triangles.size(); i++)
+    {
+        if (PointinTriangle(triangles[i], start))
+        {
+            tri_index = i;
+            break;
+        }
+    }
+    if (tri_index != -1)
+    {
+        line(board, triangles[tri_index].p1, triangles[tri_index].p2, Scalar(255, 255, 0));
+        line(board, triangles[tri_index].p1, triangles[tri_index].p3, Scalar(255, 255, 0));
+        line(board, triangles[tri_index].p2, triangles[tri_index].p3, Scalar(255, 255, 0));
+        cv::imshow("main", board);
+        waitKey(0);
+    }
+    else
+        cout << "not in triangles!" << endl;
+}
+
+// Determine whether point P in triangle ABC
+//重心法,来源https://blog.csdn.net/wkl115211/article/details/80215421
+bool PointinTriangle(const Triangle &tri, const PointType &p)
+{
+    Point_<DataType> v0 = tri.p3 - tri.p1;
+    Point_<DataType> v1 = tri.p2 - tri.p1;
+    Point_<DataType> v2 = p - tri.p1;
+
+    float dot00 = v0.dot(v0);
+    float dot01 = v0.dot(v1);
+    float dot02 = v0.dot(v2);
+    float dot11 = v1.dot(v1);
+    float dot12 = v1.dot(v2);
+
+    float inverDeno = 1 / (dot00 * dot11 - dot01 * dot01);
+
+    float u = (dot11 * dot02 - dot01 * dot12) * inverDeno;
+    if (u < 0 || u > 1) // if u out of range, return directly
+    {
+        return false;
+    }
+
+    float v = (dot00 * dot12 - dot01 * dot02) * inverDeno;
+    if (v < 0 || v > 1) // if v out of range, return directly
+    {
+        return false;
+    }
+
+    return u + v <= 1;
+}
+
+void process(const PointType &start_point)
+{
+    triangles.resize(0);
+    initDelaunay();
+    Delaunay();
+    ClearPath();
+    ConnectTri(triangles);
+    //解决起点接口的问题
+    pair<int, Edge> start = FindStart(start_point);
+    DFS_Path(start.first, start.second.px.index, start.second.py.index);
+}
+
 void ClearPath()
 {
     path.resize(0);
