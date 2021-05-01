@@ -25,8 +25,6 @@ void ClearPath();
 vector<int> FindStart(const PointType &start_pose, const PointType &start_orientation);
 //判断一个点是否在三角形内
 bool PointinTriangle(const Triangle &tri, const PointType &p);
-//从点集到最佳路径
-void process(const PointType &start_point);
 
 void ConnectTri(const vector<Triangle> &triangles_)
 {
@@ -134,6 +132,7 @@ void DFS_Path(int start, int p1_index, int p2_index)
     }
 }
 
+//如果起始点在三角形内，可通过此函数找到DFS的接口参数
 vector<int> FindStart(const PointType &start_pose, const PointType &start_orientation)
 {
     circle(board, start_pose, 2, Scalar(0, 0, 255), CV_FILLED, CV_AA, 0);
@@ -149,7 +148,7 @@ vector<int> FindStart(const PointType &start_pose, const PointType &start_orient
         }
     }
     bool flag = true;
-    if (tri_index != -1)
+    if (tri_index == -1)
         flag = false;
     if (flag)
     {
@@ -168,23 +167,47 @@ vector<int> FindStart(const PointType &start_pose, const PointType &start_orient
         Point_<DataType> v1 = triangles[tri_index].p1 - start_pose;
         Point_<DataType> v2 = triangles[tri_index].p2 - start_pose;
         Point_<DataType> v3 = triangles[tri_index].p3 - start_pose;
-        float dot1 = v1.dot(v);
-        float dot2 = v2.dot(v);
-        float dot3 = v3.dot(v);
-        if (dot1 >= 0 && dot2 >= 0)
+        double angle = atan2(v.y, v.x);
+        double angle1 = atan2(v1.y, v1.x);
+        double angle2 = atan2(v2.y, v2.x);
+        double angle3 = atan2(v3.y, v3.x);
+        pair<int, double> p(0, angle);
+        pair<int, double> p1(1, angle1);
+        pair<int, double> p2(2, angle2);
+        pair<int, double> p3(3, angle3);
+        vector<pair<int, double>> angles = {p, p1, p2, p3};
+        sort(angles.begin(), angles.end(), [](pair<int, double> p, pair<int, double> p2) { return p.second < p2.second; });
+        vector<pair<int, double>> choose;
+        for (int i = 0; i < angles.size(); i++)
         {
-            start.push_back(triangles[tri_index].p1.index);
-            start.push_back(triangles[tri_index].p2.index);
+            if (angles[i].first == 0)
+            {
+                if (i == 0 || i == 2)
+                {
+                    choose.push_back(angles[1]);
+                    choose.push_back(angles[3]);
+                }
+                else
+                {
+                    choose.push_back(angles[0]);
+                    choose.push_back(angles[2]);
+                }
+            }
         }
-        else if (dot1 >= 0 && dot3 >= 0)
+        for (int i = 0; i < choose.size(); i++)
         {
-            start.push_back(triangles[tri_index].p1.index);
-            start.push_back(triangles[tri_index].p3.index);
-        }
-        else
-        {
-            start.push_back(triangles[tri_index].p2.index);
-            start.push_back(triangles[tri_index].p3.index);
+            if (choose[i].first == 1)
+            {
+                start.push_back(triangles[tri_index].p1.index);
+            }
+            else if (choose[i].first == 2)
+            {
+                start.push_back(triangles[tri_index].p2.index);
+            }
+            else
+            {
+                start.push_back(triangles[tri_index].p3.index);
+            }
         }
         return start;
     }
@@ -219,18 +242,6 @@ bool PointinTriangle(const Triangle &tri, const PointType &p)
     }
 
     return u + v <= 1;
-}
-
-void process(const PointType &start_point, const PointType &start_orientation)
-{
-    triangles.resize(0);
-    initDelaunay();
-    Delaunay();
-    ClearPath();
-    ConnectTri(triangles);
-    //解决起点接口的问题
-    vector<int> start = FindStart(start_point, start_orientation);
-    DFS_Path(start[0], start[1], start[2]);
 }
 
 //重置变量，为下一次规划做准备

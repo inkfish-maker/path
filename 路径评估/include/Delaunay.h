@@ -36,7 +36,7 @@ void create_points()
 void read_points()
 {
     fstream fin;
-    fin.open("/home/jinzedong/桌面/路径评估/path_datas/path.txt");
+    fin.open("/home/jinzedong/桌面/newpath/路径评估/path_datas/path.txt");
     int numberPoints, color;
     double x, y;
     char none_key;

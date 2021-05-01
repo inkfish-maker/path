@@ -8,12 +8,14 @@ DataType weight1, weight2, weight3;
 //归一化范围
 const DataType zone = 100;
 //能不能提前优化去掉一些极端值
-
+//评估函数
 DataType get_MaximumAngleChange(int index);
 DataType get_TrackWidthStandardDeviation(int index);
 DataType get_DistanceStandardDeviation(int index);
 DataType get_MaximalWrongColorProbability(int index);
 DataType get_LengthSensorRangeSquaredDifference(int index);
+//从点集到最佳路径
+void process(const PointType &start_point);
 
 //计算两点之间距离
 DataType Dist(const PointType &p1, const PointType &p2)
@@ -201,22 +203,22 @@ int BestPath()
 //===================================================================
 
 //在OpenCv中模拟跑动
-void run()
+void run(int start_tri, int p1_index, int p2_index)
 {
-    int start = 0;
-    DFS_Path(start, triangles[start].p1.index, triangles[start].p2.index);
+    DFS_Path(start_tri, p1_index, p2_index);
     //防止回头
+    int start = start_tri;
     int pre = -1;
     int prepre = -1;
     while (true)
     {
         clock_t start_c = clock(), end_c;
         int pathindex = BestPath();
-        cout << start << "  ";
-        for (int i = 0; i < nextinfos[pathindex].size(); i++)
-        {
-            cout << nextinfos[pathindex][i].first << " ";
-        }
+        // cout << start << "  ";
+        // for (int i = 0; i < nextinfos[pathindex].size(); i++)
+        // {
+        //     cout << nextinfos[pathindex][i].first << " ";
+        // }
         //展示最佳路径
         Mat temp;
         board.copyTo(temp);
@@ -247,5 +249,19 @@ void run()
         ClearPath();
         DFS_Path(start, nextp1, nextp2);
     }
+}
+
+void process(const PointType &start_point, const PointType &start_orientation)
+{
+    triangles.resize(0);
+    initDelaunay();
+    Delaunay();
+    show_tri(triangles);
+    ConnectTri(triangles);
+    sort(points.begin(), points.end(), [](PointType p1, PointType p2) { return p1.index < p2.index; });
+    ClearPath();
+    //解决起点接口的问题
+    vector<int> start = FindStart(start_point, start_orientation);
+    run(start[0], start[1], start[2]);
 }
 #endif

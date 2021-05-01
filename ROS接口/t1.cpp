@@ -12,34 +12,36 @@ int main()
     namedWindow("main");
     srand((unsigned)time(NULL));
     read_points();
-    // create_points();
-    initDelaunay();
-    Delaunay();
-    show_tri(triangles);
-    ConnectTri(triangles);
-    //搞清楚为什么point的序号会变
-    sort(points.begin(), points.end(), [](PointType p1, PointType p2) { return p1.index < p2.index; });
+    // // create_points();
+    // initDelaunay();
+    // Delaunay();
+    // show_tri(triangles);
+    // ConnectTri(triangles);
+    // //搞清楚为什么point的序号会变
+    // sort(points.begin(), points.end(), [](PointType p1, PointType p2) { return p1.index < p2.index; });
 
     //测试点在哪个三角形里
-    cv::setMouseCallback("main", on_mouse, 0); //调用回调函数
-    while (true)
-    {
-        cv::imshow("main", board);
-        while (true)
-        {
-            char key = cvWaitKey(10);
-            if (key == 's')
-            {
-                break;
-            }
-        }
-        PointType p2(p.x, p.y);
-        PointType p3(1, 0);
-        FindStart(p2, p3);
-    }
+    // cv::setMouseCallback("main", on_mouse, 0); //调用回调函数
+    // while (true)
+    // {
+    //     cv::imshow("main", board);
+    //     while (true)
+    //     {
+    //         char key = cvWaitKey(10);
+    //         if (key == 's')
+    //         {
+    //             break;
+    //         }
+    //     }
+    //     PointType p2(p.x, p.y);
+    //     PointType p3(1, 0);
+    //     FindStart(p2, p3);
+    // }
 
     SetWeight(3, 3, 1);
-    run();
+    PointType pose(255, 74);
+    PointType ori(1, 0);
+    process(pose, ori);
 }
 
 void on_mouse(int event, int x, int y, int flags, void *ustc) //event鼠标事件代号，x,y鼠标坐标，flags拖拽和键盘操作的代号

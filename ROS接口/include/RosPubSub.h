@@ -18,7 +18,20 @@ public:
 };
 void circle_race_callback(const std_msgs::Int32 &msg)
 {
-    ;
+    try
+    {
+        if (msg.data - ppnode.race_count == 1)
+        {
+            ppnode.race_count = msg.data;
+            ppnode.initPath = true;
+            std::cout << "Round " << ppnode.race_count << std::endl;
+        }
+    }
+    catch (...)
+    {
+        std::cout << "Exception:" << std::endl;
+        return;
+    }
 }
 void generate_path_callback(const back_end::BackEndOutput &msg)
 {
