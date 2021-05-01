@@ -54,6 +54,11 @@
         "cfenv": "cpp",
         "cinttypes": "cpp",
         "typeinfo": "cpp",
-        "dense": "cpp"
+        "list": "cpp",
+        "unordered_set": "cpp",
+        "numeric": "cpp",
+        "hash_map": "cpp",
+        "hash_set": "cpp",
+        "typeindex": "cpp"
     }
 }

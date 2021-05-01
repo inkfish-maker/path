@@ -2,7 +2,6 @@
 #define PATH_H
 
 #include "Triangle.h"
-#include "Delaunay.h"
 
 //路径深度
 int mindepth = 8;
@@ -23,8 +22,8 @@ void DFS_Path(int start, int p1_index, int p2_index);
 //重置变量，为下一次规划做准备
 void ClearPath();
 //找到DFS的起始点
-pair<int, Edge> FindStart(const PointType &start);
-//判断一个点是否在三角形内部
+vector<int> FindStart(const PointType &start_pose, const PointType &start_orientation);
+//判断一个点是否在三角形内
 bool PointinTriangle(const Triangle &tri, const PointType &p);
 //从点集到最佳路径
 void process(const PointType &start_point);
@@ -135,28 +134,60 @@ void DFS_Path(int start, int p1_index, int p2_index)
     }
 }
 
-pair<int, Edge> FindStart(const PointType &start)
+vector<int> FindStart(const PointType &start_pose, const PointType &start_orientation)
 {
-    circle(board, start, 2, Scalar(0, 0, 255), CV_FILLED, CV_AA, 0);
+    circle(board, start_pose, 2, Scalar(0, 0, 255), CV_FILLED, CV_AA, 0);
+    vector<int> start;
+    //找点在哪个三角形
     int tri_index = -1;
     for (int i = 0; i < triangles.size(); i++)
     {
-        if (PointinTriangle(triangles[i], start))
+        if (PointinTriangle(triangles[i], start_pose))
         {
             tri_index = i;
             break;
         }
     }
+    bool flag = true;
     if (tri_index != -1)
+        flag = false;
+    if (flag)
     {
+        start.push_back(tri_index);
         line(board, triangles[tri_index].p1, triangles[tri_index].p2, Scalar(255, 255, 0));
         line(board, triangles[tri_index].p1, triangles[tri_index].p3, Scalar(255, 255, 0));
         line(board, triangles[tri_index].p2, triangles[tri_index].p3, Scalar(255, 255, 0));
         cv::imshow("main", board);
-        waitKey(0);
     }
     else
         cout << "not in triangles!" << endl;
+    //判断应该往哪个方向走
+    if (flag)
+    {
+        Point_<DataType> v = start_orientation;
+        Point_<DataType> v1 = triangles[tri_index].p1 - start_pose;
+        Point_<DataType> v2 = triangles[tri_index].p2 - start_pose;
+        Point_<DataType> v3 = triangles[tri_index].p3 - start_pose;
+        float dot1 = v1.dot(v);
+        float dot2 = v2.dot(v);
+        float dot3 = v3.dot(v);
+        if (dot1 >= 0 && dot2 >= 0)
+        {
+            start.push_back(triangles[tri_index].p1.index);
+            start.push_back(triangles[tri_index].p2.index);
+        }
+        else if (dot1 >= 0 && dot3 >= 0)
+        {
+            start.push_back(triangles[tri_index].p1.index);
+            start.push_back(triangles[tri_index].p3.index);
+        }
+        else
+        {
+            start.push_back(triangles[tri_index].p2.index);
+            start.push_back(triangles[tri_index].p3.index);
+        }
+        return start;
+    }
 }
 
 // Determine whether point P in triangle ABC
@@ -190,7 +221,7 @@ bool PointinTriangle(const Triangle &tri, const PointType &p)
     return u + v <= 1;
 }
 
-void process(const PointType &start_point)
+void process(const PointType &start_point, const PointType &start_orientation)
 {
     triangles.resize(0);
     initDelaunay();
@@ -198,10 +229,11 @@ void process(const PointType &start_point)
     ClearPath();
     ConnectTri(triangles);
     //解决起点接口的问题
-    pair<int, Edge> start = FindStart(start_point);
-    DFS_Path(start.first, start.second.px.index, start.second.py.index);
+    vector<int> start = FindStart(start_point, start_orientation);
+    DFS_Path(start[0], start[1], start[2]);
 }
 
+//重置变量，为下一次规划做准备
 void ClearPath()
 {
     path.resize(0);

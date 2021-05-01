@@ -29,6 +29,7 @@ public:
 
     Triangle(const PointType &pp1, const PointType &pp2, const PointType &pp3);
     Triangle(const PointType &p, const Edge &e);
+    Triangle(){};
     //求面积
     DataType Area();
     //初始化内接圆
