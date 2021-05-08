@@ -36,7 +36,7 @@ void create_points()
 void read_points()
 {
     fstream fin;
-    fin.open("/home/jinzedong/桌面/ROS接口todo/path_datas/path5.txt");
+    fin.open("/home/jinzedong/桌面/DTW/path_datas/path4.txt");
     int numberPoints, color;
     double x, y;
     char none_key;

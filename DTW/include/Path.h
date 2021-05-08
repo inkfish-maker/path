@@ -153,6 +153,7 @@ void DFS_Path(int start, int p1_index, int p2_index, bool dfs_flag)
                 // adj_tirs[start].AdjTriIndex_Edge[i].second.getEdgeWidth();
                 // width.push_back(adj_tirs[start].AdjTriIndex_Edge[i].second.edge_width);
                 Edge nextedge(adj_tirs[start].AdjTriIndex_Edge[i].second.px, adj_tirs[start].AdjTriIndex_Edge[i].second.py);
+                //如果启用限制，自制的地图可能由于只有极端值可行，而导致paths的size为0出现段错误
                 // if (nextedge.edge_width > maxwidth || nextedge.edge_width < minwidth)
                 //     continue;
                 // if (path.size() > 3)

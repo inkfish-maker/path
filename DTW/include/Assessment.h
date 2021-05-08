@@ -19,23 +19,6 @@ DataType get_PathMatchingDegree(int index);
 void process(const PointType &start_point);
 
 //最大角度变化version_1(相邻角的变化)
-// DataType get_MaximumAngleChange(int index)
-// {
-//     vector<DataType> angles;
-//     // cout << "angles:" << endl;
-//     for (int i = 0; i < paths[index].size() - 2; i++)
-//     {
-//         angles.push_back(GetAngle(paths[index][i], paths[index][i + 1], paths[index][i + 2]));
-//     }
-//     DataType maxAngleChange = -1;
-//     for (int i = 0; i < angles.size() - 1; i++)
-//         maxAngleChange = max(maxAngleChange, fabs(angles[i + 1] - angles[i]));
-//     // cout << "MaximumAngleChange:" << endl;
-//     // cout << maxAngleChange / M_PI * 180 << endl;
-//     return maxAngleChange;
-// }
-
-//最大角度变化version_2(全局角的变化)
 DataType get_MaximumAngleChange(int index)
 {
     vector<DataType> angles;
@@ -43,17 +26,34 @@ DataType get_MaximumAngleChange(int index)
     for (int i = 0; i < paths[index].size() - 2; i++)
     {
         angles.push_back(GetAngle(paths[index][i], paths[index][i + 1], paths[index][i + 2]));
-        // cout << angles[i] << endl;
     }
     DataType maxAngleChange = -1;
-    sort(angles.begin(), angles.end());
-    maxAngleChange = angles[angles.size() - 1] - angles[0];
+    for (int i = 0; i < angles.size() - 1; i++)
+        maxAngleChange = max(maxAngleChange, fabs(angles[i + 1] - angles[i]));
     // cout << "MaximumAngleChange:" << endl;
     // cout << maxAngleChange / M_PI * 180 << endl;
-    // if (maxAngleChange > M_PI_2)
-    //     maxAngleChange *= 2;
     return maxAngleChange;
 }
+
+//最大角度变化version_2(全局角的变化)
+// DataType get_MaximumAngleChange(int index)
+// {
+//     vector<DataType> angles;
+//     // cout << "angles:" << endl;
+//     for (int i = 0; i < paths[index].size() - 2; i++)
+//     {
+//         angles.push_back(GetAngle(paths[index][i], paths[index][i + 1], paths[index][i + 2]));
+//         // cout << angles[i] << endl;
+//     }
+//     DataType maxAngleChange = -1;
+//     sort(angles.begin(), angles.end());
+//     maxAngleChange = angles[angles.size() - 1] - angles[0];
+//     // cout << "MaximumAngleChange:" << endl;
+//     // cout << maxAngleChange / M_PI * 180 << endl;
+//     // if (maxAngleChange > M_PI_2)
+//     //     maxAngleChange *= 2;
+//     return maxAngleChange;
+// }
 
 //路径宽度的标准差
 DataType get_TrackWidthStandardDeviation(int index)
