@@ -125,7 +125,7 @@ DataType get_LengthSensorRangeSquaredDifference(int index)
 }
 
 //使用DTW算法计算路径的匹配度
-//参考理解https://blog.csdn.net/qq_39516859/article/details/81705010#commentBox
+//参考理解https://blog.csdn.net/qq_39516859/article/details/81705010
 DataType get_PathMatchingDegree(int index)
 {
     vector<PointType> prepath = last_path;
