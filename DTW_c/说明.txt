@@ -1,1 +1,2 @@
+opencv需安装3.x.x
 依赖back_end

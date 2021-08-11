@@ -97,11 +97,13 @@ void show_tri(vector<Triangle> &triangles_)
         // cout << triangles_[i].p1 << "  " << triangles_[i].p2 << "  " << triangles_[i].p3 << endl;
         // cv::imshow("main", temp);
     }
+    cout << "show_tri successfully" << endl;
 }
 void initDelaunay(const vector<PointType> &points)
 {
     vector<PointType> points_ = points;
-    std::sort(points_.begin(), points_.end(), [](PointType p1, PointType p2) { return p1.y < p2.y; });
+    std::sort(points_.begin(), points_.end(), [](PointType p1, PointType p2)
+              { return p1.y < p2.y; });
     DataType down_y = points_[0].y;
     DataType up_y = points_[point_num - 1].y;
 
@@ -110,7 +112,8 @@ void initDelaunay(const vector<PointType> &points)
     // //下垂线
     // line(board, PointType(0, poinTriangle super_trianglets[point_num - 1].y), PointType(Mat_len, points[point_num - 1].y), Scalar(255, 0, 0));
 
-    std::sort(points_.begin(), points_.end(), [](PointType p1, PointType p2) { return p1.x < p2.x; });
+    std::sort(points_.begin(), points_.end(), [](PointType p1, PointType p2)
+              { return p1.x < p2.x; });
     DataType left_x = points_[0].x;
     DataType right_x = points_[point_num - 1].x;
 
@@ -138,10 +141,10 @@ void initDelaunay(const vector<PointType> &points)
     // line(board, p_up, p_left, Scalar(255, 0, 0));
     // line(board, p_up, p_right, Scalar(255, 0, 0));
     // line(board, p_left, p_right, Scalar(255, 0, 0));
-
     Triangle super_triangle(p_up, p_left, p_right);
     temp_triangles.push(super_triangle);
     triangles.push_back(super_triangle);
+    cout << "initDelaunay successfully" << endl;
 }
 int Circle_Judge(Triangle tri, PointType p)
 {
@@ -173,7 +176,8 @@ bool CheckSuper(Triangle tri)
 }
 void Delaunay()
 {
-    std::sort(points.begin(), points.end(), [](PointType p1, PointType p2) { return p1.x < p2.x; });
+    std::sort(points.begin(), points.end(), [](PointType p1, PointType p2)
+              { return p1.x < p2.x; });
     for (int index = 0; index < point_num; index++)
     {
         //目前比较到的顶点
@@ -210,7 +214,8 @@ void Delaunay()
             }
         }
         //边去重
-        std::sort(temp_edges.begin(), temp_edges.end(), [](Edge e1, Edge e2) { return e1 == e2; });
+        std::sort(temp_edges.begin(), temp_edges.end(), [](Edge e1, Edge e2)
+                  { return e1 == e2; });
         for (vector<Edge>::iterator e1 = temp_edges.begin(); e1 != temp_edges.end();)
         {
             Edge e = *e1;
@@ -274,7 +279,9 @@ void Delaunay()
         }
     }
     std::cout << "cnt:" << cnt << endl;
-    std::sort(points.begin(), points.end(), [](PointType p1, PointType p2) { return p1.index < p2.index; });
+    std::sort(points.begin(), points.end(), [](PointType p1, PointType p2)
+              { return p1.index < p2.index; });
+    cout << "Delaunay successfully" << endl;
 }
 
 #endif

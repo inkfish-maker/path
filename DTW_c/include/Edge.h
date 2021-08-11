@@ -13,7 +13,7 @@ public:
     Edge();
     Edge(const PointType &ppx, const PointType &ppy);
     void getEdgeWidth();
-    Edge operator=(const Edge &e);
+    void operator=(const Edge &e);
     bool operator==(const Edge &e);
     bool operator!=(const Edge &e);
 };
@@ -39,7 +39,7 @@ void Edge::getEdgeWidth()
 {
     edge_width = sqrt(pow(fabs(px.x - py.x), 2) + pow(fabs(px.y - py.y), 2));
 }
-Edge Edge::operator=(const Edge &e)
+void Edge::operator=(const Edge &e)
 {
     px = e.px;
     px.index = e.px.index;
@@ -61,5 +61,6 @@ bool Edge::operator!=(const Edge &e)
 ostream &operator<<(ostream &out, Edge &e)
 {
     std::cout << "px:" << e.px.x << "  " << e.px.y << "py:" << e.py.x << " " << e.py.y << endl;
+    return out;
 }
 #endif

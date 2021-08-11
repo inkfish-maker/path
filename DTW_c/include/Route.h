@@ -117,6 +117,7 @@ void ConnectTri(const vector<Triangle> &triangles_)
             cout << "i=150:" << e1_.size() << " " << e2_.size() << " " << e3_.size() << endl;
         }
     }
+    cout << "ConnectTri successfully" << endl;
 }
 //tir序号，边的两个端点序号
 //可以使用分支界限优化效率（待实现）
@@ -224,7 +225,8 @@ vector<int> FindStart_intri(const PointType &start_pose, const PointType &start_
         pair<int, double> p2(2, angle2);
         pair<int, double> p3(3, angle3);
         vector<pair<int, double>> angles = {p, p1, p2, p3};
-        sort(angles.begin(), angles.end(), [](pair<int, double> p, pair<int, double> p2) { return p.second < p2.second; });
+        sort(angles.begin(), angles.end(), [](pair<int, double> p, pair<int, double> p2)
+             { return p.second < p2.second; });
         vector<pair<int, double>> choose;
         for (int i = 0; i < angles.size(); i++)
         {
@@ -276,6 +278,7 @@ vector<int> FindStart_intri(const PointType &start_pose, const PointType &start_
         Edge next(points[start[1]], points[start[2]]);
         nextinfo.push_back(pair<int, Edge>(start[0], next));
         cout << "start:" << start[0] << "-" << start[1] << "-" << start[2] << endl;
+        cout << "FindStart(in) successfully" << endl;
         return start;
     }
     else
@@ -335,7 +338,7 @@ vector<int> FindStart_outtri(const PointType &start_pose, const PointType &start
     vector<int> best;
     for (int i = 0; i < triangles_index.size(); i++)
     {
-        cout << MinDist << endl;
+        // cout << MinDist << endl;
         double dis_e1 = Dist(start_pose, triangles_[triangles_index[i]].e1.mid_p);
         double width_e1 = triangles_[triangles_index[i]].e1.edge_width;
         if (dis_e1 < MinDist && width_e1 > minwidth && width_e1 < maxwidth)
@@ -370,6 +373,7 @@ vector<int> FindStart_outtri(const PointType &start_pose, const PointType &start
     if (best.size() != 0)
     {
         cout << "start:" << best[0] << "-" << best[1] << "-" << best[2] << endl;
+        cout << "FindStart(out) successfully" << endl;
         return best;
     }
     else
@@ -419,6 +423,7 @@ void ClearPath()
     widths.resize(0);
     nextinfo.resize(0);
     nextinfos.resize(0);
+    cout << "ClearPath successfully" << endl;
 }
 
 #endif

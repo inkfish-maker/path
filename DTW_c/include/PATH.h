@@ -7,7 +7,7 @@
 // 更换, 提高了可移植性
 
 const std::string NODE_NAME = "path_plan";
-const std::string WORK_SPACE_PATH = "/home/jinzedong/桌面/DTW_c";
+const std::string WORK_SPACE_PATH = "/home/jinzedong/PathPlan/DTW_c";
 const std::string CONFIG_FILE_PATH = WORK_SPACE_PATH + "/config";
 
 #endif

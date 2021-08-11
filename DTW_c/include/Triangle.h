@@ -33,10 +33,12 @@ Triangle::Triangle(const PointType &pp1, const PointType &pp2, const PointType &
     p1 = pp1;
     p2 = pp2;
     p3 = pp3;
+    cout << "tr" << endl;
     e1 = Edge(pp1, pp2);
     e2 = Edge(pp1, pp3);
     e3 = Edge(pp2, pp3);
     visit = false;
+    cout << "tr" << endl;
     InitCircle();
 }
 Triangle::Triangle(const PointType &p, const Edge &e)

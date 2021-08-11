@@ -115,13 +115,13 @@ DataType get_DistanceStandardDeviation(int index)
 //颜色误差，暂时搁置
 DataType get_MaximalWrongColorProbability(int index)
 {
-    ;
+    return 1;
 }
 
 // 没有实现
 DataType get_LengthSensorRangeSquaredDifference(int index)
 {
-    ;
+    return 1;
 }
 
 //使用DTW算法计算路径的匹配度
@@ -206,7 +206,6 @@ int BestPath()
     DataType angle_change = -1, path_width_dev = -1, path_lenth_dev = -1, matching_degree = -1;
     vector<DataType> angle_path, width_path, lenth_path, match_path;
     cout << paths.size() << endl;
-    cout << "ok" << endl;
     //记录每条路径的数据
     for (int i = 0; i < paths.size(); i++)
     {
@@ -364,7 +363,8 @@ void process(const PointType &start_point, const PointType &start_orientation)
     ClearPath();
     //解决起点接口的问题
     vector<int> start = FindStart_intri(start_point, start_orientation);
-    sort(points.begin(), points.end(), [](PointType p1, PointType p2) { return p1.index < p2.index; });
+    sort(points.begin(), points.end(), [](PointType p1, PointType p2)
+         { return p1.index < p2.index; });
     run(start[0], start[1], start[2]);
 }
 #endif

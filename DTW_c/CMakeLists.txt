@@ -19,7 +19,11 @@ configure_file(
 
 message( STATUS CMAKE_PREFIX_PATH )
 
-find_package(OpenCV REQUIRED)
+#set opencv version
+set(CMAKE_PREFIX_PATH "/usr/local/opencv/3.4.14")
+find_package(OpenCV  REQUIRED)
+#显示opencv版本
+MESSAGE(STATUS "OpenCV version: "${OpenCV_VERSION})
 
 include_directories(${OpenCV_INCLUDE_DIRS})
 include_directories(include ${PROJECT_SOURCE_DIR}/include)
